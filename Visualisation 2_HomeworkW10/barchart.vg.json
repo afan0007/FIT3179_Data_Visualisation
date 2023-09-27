@@ -1,0 +1,23 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Highest Monthly Earnings yearly",
+    
+    "data": {
+      "url": "Global YouTube Statistics.csv",
+      "format": {
+        "type": "csv"
+      }
+    },
+    "mark": "bar",
+    "encoding": {
+      "x": {"field": "highest_yearly_earnings", "type": "quantitative"},
+      "y": {"field": "Youtuber", "type": "nominal"},
+      "tooltip": [
+        {"field": "Youtuber", "type": "nominal"},
+        {"field": "highest_yearly_earnings", "type": "quantitative"}
+      ]
+    }
+    
+  }
+  
+  

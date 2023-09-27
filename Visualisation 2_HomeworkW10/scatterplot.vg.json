@@ -1,0 +1,64 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Subscribers vs. Video Views",
+  "width": 800,
+  "height": 500,
+  "data": {
+    "url": "Global YouTube Statistics.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "layer": [
+    {
+      "mark": "point",
+      "encoding": {
+        "x": {"field": "subscribers", "type": "quantitative"},
+        "y": {"field": "video views", "type": "quantitative"},
+        
+        "tooltip": [
+          {"field": "Youtuber", "type": "nominal"},
+          {"field": "subscribers", "type": "quantitative"},
+          {"field": "video views", "type": "quantitative"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 5
+      },
+      "encoding": {
+        "x": {"field": "subscribers", "type": "quantitative", "stack": "zero", "title":"Number of subscribers"},
+        "y": {"field": "video views", "type": "quantitative", "title": "Total views across all videos on the channel"},
+        "text": {"field": "Youtuber", "type": "nominal"},
+        "color": {"value": "black"}
+      },
+      "transform": [
+        {
+          "filter": {"field": "rank", "lte": 5} 
+        }
+      ]
+    }
+  ],
+  "params": [
+   
+    {
+      "name": "topNRank",
+      "bind": {
+        "input": "select",
+        "options": [null, 10, 20, 30, 40, 50],
+        "labels": ["Show All", "Top 10", "Top 20", "Top 30", "Top 40", "Top 50"],
+        "name": "Top N Rank Youtuber: "
+      }
+    }
+  ],
+  "transform": [
+    
+    {
+      "filter": "topNRank == null || datum.rank <= topNRank"
+    }
+  ]
+}
