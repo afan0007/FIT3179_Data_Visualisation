@@ -1,0 +1,76 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "title": "Top 50 rank YouTubers and its uploads",
+    "width": 800,
+    "height": 500,
+    "padding": 0,
+    "data": [
+      {
+        "name": "table",
+        "url": "Global YouTube Statistics.csv", 
+        "format": {"type": "csv"},
+        "transform": [
+          {
+            "type": "filter",
+            "expr": "datum.rank <= 50 "  
+          },
+          {
+            "type": "formula", "as": "angle",
+            "expr": "[0, 0, 0][~~(random() * 3)]"
+          },
+          {
+            "type": "formula", "as": "fontSize",
+            "expr": "log(datum.subscribers )*5"
+          },
+          {
+            "type": "formula", "as": "weight",
+            "expr": "if(datum.text=='VEGA', 600, 300)"
+          }
+        ]
+      }
+    ],
+    "scales": [
+      {
+        "name": "color",
+        "type": "ordinal",
+        "domain": {"data": "table", "field": "Youtuber"},
+        "range": ["#ee3ab5", "#652c90", "#939597"]
+      }
+    ],
+    "marks": [
+      {
+        "type": "text",
+        "from": {"data": "table"},
+        "encode": {
+          "enter": {
+            "text": {"field": "Youtuber"},
+            "align": {"value": "center"},
+            "baseline": {"value": "alphabetic"},
+            "fill": {"scale": "color", "field": "Youtuber"},
+            "tooltip": {"field": "uploads", "type": "quantitative", "title": "uploads"}
+            
+          },
+          "update": {
+            "fillOpacity": {"value": 1}
+          },
+          "hover": {
+            "fillOpacity": {"value": 0.5}
+          }
+        },
+        "transform": [
+          {
+            "type": "wordcloud",
+            "size": [800, 400],
+            "text": {"field": "Youtuber"},
+            "rotate": {"field": "datum.angle"},
+            "font": "Helvetica Neue, Arial",
+            "fontSize": {"field": "datum.uploads"},
+            "fontSizeRange": [8, 56],
+            
+            "padding": 8
+          }
+        ]
+      }
+    ]
+  }
+  

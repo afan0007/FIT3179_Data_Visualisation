@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube 2023 Statistics Analysis</title>
+    <!-- Include Vega and Vega-Lite JavaScript libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+     <!-- Include the CSS file -->
+     <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="header">
+        <h1>Youtube 2023 Statistics Analysis</h1>
+        <img src="youtube.png" alt="YouTube Logo" style="width: 200px; height: auto;">
+      </div>
+    <div id="visualization4"></div>
+    <div class="description description-left">
+        
+        <p>From the donut chart visualisation of Youtube channel types, it is discovered that channel type of: <strong>"Entertainment", "Music", and "People and Blogs"</strong> are the top 3 most common type of content made by Youtubers. Hence, it is justified that those channel types are highly valued among Youtube users.  </p>
+      </div>
+    <script>
+        
+        const vegaLiteSpec4 = "donutchart1.vg.json";
+        const container4 = document.getElementById("visualization4");
+        vegaEmbed(container4, vegaLiteSpec4);
+    </script>
+    
+    <div id="visualization5"></div>
+    <div class="description description-left">
+        
+        <p>The visualisation above shows the ratio of Youtubers in each country. It is observed that <strong> United States</strong> has the highest amount of Youtubers followed by <strong>India.</strong> </p>
+      </div>
+    <script>
+        
+        const vegaLiteSpec5 = "donutchart2.vg.json";
+        const container5 = document.getElementById("visualization5");
+        vegaEmbed(container5, vegaLiteSpec5);
+    </script>
+
+    <!-- Container for the visualization -->
+    <div id="visualization"></div>
+    <div class="description description-left">
+        
+        <p>The rotatable map projection visualisation demonstrates and show us the Top ranked Youtuber of each country and its dot mark is varied by its associated subscribers count.It is seen that <strong> T-Series from India</strong> has the highest amount of subscribers </p>
+      </div>
+    <script>
+        // Your Vega-Lite specification (replace with your file's path)
+        const vegaLiteSpec = "proportionalSymbolMap.vg.json";
+
+        // Get a reference to the container div
+        const container = document.getElementById("visualization");
+
+        // Use Vega-Embed to render the visualization
+        vegaEmbed(container, vegaLiteSpec);
+    </script>
+    <!-- Container for the visualization -->
+    <div id="visualization2"></div>
+    <div class="description description-left">
+        
+        <p>The viusalisation above shows that amount of subscribers highly correlates with video views. This can be proven by the annotated global top 5 rank Youtubers. It shows that Youtuber who has higher subscriber count would have higher overall video views. </p>
+      </div>
+    <script>
+        
+        const vegaLiteSpec2 = "scatterplot.vg.json";
+        const container2 = document.getElementById("visualization2");
+        vegaEmbed(container2, vegaLiteSpec2);
+    </script>
+    <div id="visualization3"></div>
+    <div class="description description-left">
+        
+        <p>The word cloud shown above visualises top 50 ranked youtuber such that if they have a higher amount of uploads, the youtuber name would be larger.  </p>
+      </div>
+    <script>
+        
+        const vegaLiteSpec3 = "wordcloud.vg.json";
+        const container3 = document.getElementById("visualization3");
+        vegaEmbed(container3, vegaLiteSpec3);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 400,
+    "data": {
+      "url": "Global YouTube Statistics.csv"
+    },
+    "mark": "line",
+    "encoding": {
+      "x": {
+        "field": "created_year",
+        "type": "temporal",
+        "title": "Year"
+      },
+      "y": {
+        "aggregate": "count",
+        "type": "quantitative",
+        "title": "Channels Created"
+      }
+    },
+    "title": "Number of YouTube Channels Created Over the Years"
+  }
+  

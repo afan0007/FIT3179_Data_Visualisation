@@ -1,0 +1,30 @@
+#header {
+	display: flex;
+	align-items: center;
+  }
+  
+  #header h1 {
+	flex: 1;
+	font-size: 2em;
+  }
+  
+  #header img {
+	order: -1;
+  }
+
+  #visualization4, #visualization5 {
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	justify-content: space-around;
+  }
+  
+  
+#proportionalSymbolMap {
+	top:100px;
+	bottom: 100px; 
+	left: 100px;
+	right: 100px;
+	/*height: 1000px;
+	width: 800px;*/
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Sum of highest yearly earnings of each channel type",
+  "data": {
+    "url": "Global YouTube Statistics.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [{
+    "filter": "datum.channel_type !== 'nan'"
+  }],
+  "params": [
+    {
+      "name": "highlight",
+      "select": {"type": "point", "on": "pointerover"}
+    },
+    {"name": "select", "select": "point"}
+  ],
+  "mark": {
+    "type": "bar",
+    "fill": "#ee3ab5",
+    "stroke": "black",
+    "cursor": "pointer"
+  },
+  "encoding": {
+    "x": {"field": "channel_type", "type": "ordinal"},
+    "y": {"field": "highest_yearly_earnings", "type": "quantitative"},
+    "fillOpacity": {
+      "condition": {"param": "select", "value": 1},
+      "value": 0.3
+    },
+    "strokeWidth": {
+      "condition": [
+        {
+          "param": "select",
+          "empty": false,
+          "value": 2
+        },
+        {
+          "param": "highlight",
+          "empty": false,
+          "value": 1
+        }
+      ],
+      "value": 0
+    }
+  },
+  "config": {
+    "scale": {
+      "bandPaddingInner": 0.2
+    }
+  }
+}

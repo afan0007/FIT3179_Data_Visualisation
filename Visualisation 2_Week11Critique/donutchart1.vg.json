@@ -1,0 +1,68 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Percentage of each type of Youtube channels",
+  "width": 300,
+  "height": 300,
+  "autosize": "pad",
+  "data": {
+    "url": "Global YouTube Statistics.csv"
+  },
+  "transform": [
+    {"filter": "datum.category !== 'nan'"},
+    {"aggregate": [{"op": "count", "field": "category", "as": "count"}],
+      "groupby": ["category"]},
+    {"joinaggregate": [{"op": "sum", "field": "count", "as": "total_count"}],
+      "groupby": []},
+    {
+      "calculate": "datum.count / datum.total_count * 100",
+      "as": "percentage"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "arc",
+        "innerRadius": 70,
+        "outerRadius": 100
+      },
+      "encoding": {
+        "theta": {"field": "count", "type": "quantitative"},
+        "color": {"field": "category", "type": "nominal"},
+        "tooltip": [
+          {"field": "category", "type": "nominal", "title": "Category"},
+          {"field": "count", "type": "quantitative", "title": "Count"},
+          {"field": "percentage", "type": "quantitative", "title": "Percentage", "format": ".2f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "radius": 115,
+        "fontSize": 12,
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        
+        "color": {"field": "category", "type": "nominal", "title":"Channel Type"}
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 30,
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "text": {"value": "🎭"},
+        "x": {"value": 150},
+        "y": {"value": 150}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"}
+  }
+}

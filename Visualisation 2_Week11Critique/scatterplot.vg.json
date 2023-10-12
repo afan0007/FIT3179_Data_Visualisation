@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Subscribers vs. Video Views",
+  "width": 800,
+  "height": 500,
+  "data": {
+    "url": "Global YouTube Statistics.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "layer": [
+    {
+      "mark": "point",
+      "encoding": {
+        "x": {"field": "subscribers", "type": "quantitative"},
+        "y": {"field": "video views", "type": "quantitative"},
+        "color": {"field": "Country", "type": "nominal"},
+        "tooltip": [
+          {"field": "Youtuber", "type": "nominal"},
+          {"field": "subscribers", "type": "quantitative"},
+          {"field": "video views", "type": "quantitative"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 5
+      },
+      "encoding": {
+        "x": {"field": "subscribers", "type": "quantitative", "stack": "zero", "title":"Number of subscribers"},
+        "y": {"field": "video views", "type": "quantitative", "title": "Total views across all videos on the channel"},
+        "text": {"field": "Youtuber", "type": "nominal"},
+        "color": {"value": "black"}
+      },
+      "transform": [
+        {
+          "filter": {"field": "rank", "lte": 5} 
+        }
+      ]
+    }
+  ],
+  "params": [
+    {
+      "name": "subscribersSlider",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 240000000,
+        "step": 100000,
+        "name": "Minimum Subscribers of: "
+      }
+    },
+    {
+      "name": "topNRank",
+      "bind": {
+        "input": "select",
+        "options": [null, 10, 20, 30, 40, 50],
+        "labels": ["Show All", "10", "20", "30", "40", "50"],
+        "name": "Top N Rank Youtuber: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.subscribers >= subscribersSlider"},
+    {
+      "filter": "topNRank == null || datum.rank <= topNRank"
+    }
+  ]
+}
