@@ -1,0 +1,148 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "",
+  "width": 800,
+  "height": 400,
+  "data": {
+    "url": "Global YouTube Statistics.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.created_year !== 'nan'"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "channel_count"
+        }
+      ],
+      "groupby": ["created_year"]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "created_year",
+      "type": "temporal",
+      "title": "Year"
+    },
+    "y": {
+      "field": "channel_count",
+      "type": "quantitative",
+      "title": "Channels Created"
+    },
+    "tooltip": [
+      {
+        "field": "created_year",
+        "type": "temporal",
+        "title": "Year"
+      },
+      {
+        "field": "channel_count",
+        "type": "quantitative",
+        "title": "Channels Created"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "point": {
+          "filled": false,
+          "fill": "white"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -10,
+        "color":"red"
+      },
+      "encoding": {
+        "x": {
+          "field": "created_year",
+          "type": "temporal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "channel_count",
+          "type": "quantitative",
+          "title": "Channels Created"
+        },
+        "text": { "field": "text_annotation" }
+      },
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "channel_count",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.rank == 2"
+        },
+        {
+          "calculate": " 'Year 2006: Popularity of YouTube drastically increased'",
+          "as": "text_annotation"
+        }
+      ]
+    },
+    
+    {
+      "mark": {
+        "type": "point",
+        "tooltip": true,
+        "stroke": "red",
+        "fill":"red"
+      },
+      "encoding": {
+        "x": {
+          "field": "created_year",
+          "type": "temporal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "channel_count",
+          "type": "quantitative",
+          "title": "Channels Created"
+        },
+        "text": { "field": "text_annotation" }
+      },
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "channel_count",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.rank == 2"
+        },
+        {
+          "calculate": " 'Year 2006: Popularity of YouTube drastically increased'",
+          "as": "text_annotation"
+        }
+      ]
+    }
+  ]
+}

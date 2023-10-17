@@ -1,0 +1,88 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "",
+    "width": 800,
+    "height": 400,
+    "data": {
+      "url": "Global YouTube Statistics.csv"
+    },
+    "transform": [{"filter": "datum.created_year !== 'nan'"},
+    {"filter": "datum.created_month !== 'nan'"},
+    {"filter": "datum.created_year >= '2018'"},
+    {
+      "calculate": "if(datum.Country == 'India' || datum.Country == 'Japan'  || datum.Country == 'South Korea' || datum.Country == 'Saudi Arabia' || datum.Country == 'Yemen' || datum.Country == 'United Arab Emirates' || datum.Country == 'Kuwait' || datum.Country == 'Indonesia' || datum.Country == 'Philippines' || datum.Country == 'Pakistan' || datum.Country == 'Vietnam' || datum.Country == 'Afghanistan' || datum.Country == 'Iraq' || datum.Country == 'Jordan' || datum.Country == 'Andorra' || datum.Country == 'Malaysia' ||  datum.Country == 'China'||  datum.Country == 'Thailand'||  datum.Country == 'Bangladesh', 'Asia', if(datum.Country == 'United States' || datum.Country == 'Canada' || datum.Country == 'Mexico' || datum.Country == 'Barbados', 'North America', if(datum.Country == 'Australia' || datum.Country == 'Samoa', 'Oceania',if(datum.Country == 'Morocco' || datum.Country == 'Egypt', 'Africa', if(datum.Country == 'Brazil' || datum.Country == 'Chile'|| datum.Country == 'Cuba'|| datum.Country == 'El Salvador'|| datum.Country == 'Venezuela'|| datum.Country == 'Colombia'|| datum.Country == 'Peru'|| datum.Country == 'Ecuador'|| datum.Country == 'Argentina', 'South America','Europe')))))",
+      "as": "continent"
+    }],
+    "layer": [
+      {
+        "encoding": {
+          "x": {"field": "created_year", "type": "temporal","title":"Created Year"},
+          "y": {"aggregate": "count", "type": "quantitative","title": "Channels Created","scale": {"domain": [0, 45]}},
+          "color": {"field": "continent", "type": "nominal","title":"Continent"}
+        },
+        "layer": [
+          {"mark": "line"},
+          {
+            "params": [{
+              "name": "label",
+              "select": {
+                "type": "point",
+                "encodings": ["x"],
+                "nearest": true,
+                "on": "mouseover"
+              }
+            }],
+            "mark": "point",
+            "encoding": {
+              "opacity": {
+                "condition": {
+                  "param": "label",
+                  "empty": false,
+                  "value": 1
+                },
+                "value": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "transform": [{"filter": {"param": "label", "empty": false}}, {"filter": "datum.created_year !== 'nan'"}],
+        "layer": [
+          {
+            "mark": {"type": "rule", "color": "gray"},
+            "encoding": {
+              "x": {"type": "temporal", "field": "created_year"}
+            }
+          },
+          {
+            "encoding": {
+              "text": {"type": "quantitative", "aggregate": "count"},
+              "x": {"type": "temporal", "field": "created_year"},
+              "y": {"type": "quantitative", "aggregate": "count"}
+            },
+            "layer": [
+              {
+                "mark": {
+                  "type": "text",
+                  "stroke": "white",
+                  "strokeWidth": 2,
+                  "align": "left",
+                  "dx": 5,
+                  "dy": -5
+                }
+              },
+              {
+                "mark": {"type": "text", "align": "left", "dx": 5, "dy": -5},
+                "encoding": {
+                  "color": {"type": "nominal", "field": "continent"}
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
+  

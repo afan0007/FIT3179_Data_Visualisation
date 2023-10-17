@@ -1,0 +1,75 @@
+.header-image {
+	width: 100%;
+	height: auto;
+}
+.header1 {
+	padding: 1px;
+	text-align: center;
+	background: #9c0427;
+	color: white;
+	font-size: 20px;
+	font-family: Verdana;
+	border-radius: 15px;
+}
+* {
+	box-sizing: border-box;
+  }
+  
+  /* Create two equal columns that floats next to each other */
+  .column {
+	float: left;
+	width: 50%;
+	padding: 10px;
+	height: 500px; /* Should be removed. Only for demonstration */
+	
+}
+.column:first-child {
+    border-right: 3px solid #000; /* Add a black border on the right side of the first column */
+}
+  
+  /* Clear floats after the columns */
+  .row:after {
+	content: "";
+	display: table;
+	clear: both;
+	
+  } 
+  h2 {
+	font-family: Arial;
+	text-align: center;
+	color:#9c0427;
+}
+p {
+	font-family: sans-serif;
+}
+.visualization-container {
+	
+	
+	text-align: center;
+	
+}
+.author {
+	
+	
+	text-align: right;
+	
+	color: rgb(105, 104, 104);
+}
+
+
+  #visualization4, #visualization5 {
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	justify-content: space-around;
+  }
+  
+  
+#proportionalSymbolMap {
+	top:100px;
+	bottom: 100px; 
+	left: 100px;
+	right: 100px;
+	/*height: 1000px;
+	width: 800px;*/
+}

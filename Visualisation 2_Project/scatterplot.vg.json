@@ -1,0 +1,139 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "",
+  "width": 800,
+  "height": 500,
+  "data": {
+    "url": "Global YouTube Statistics.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "params": [
+    {
+      "name": "subscribersSlider",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 240000000,
+        "step": 100000,
+        "name": "Minimum Subscribers of: "
+      }
+    },
+    {
+      "name": "topNRank",
+      "bind": {
+        "input": "select",
+        "options": [null, 10, 20, 30, 40, 50],
+        "labels": ["Show All", "10", "20", "30", "40", "50"],
+        "name": "Top N Rank Youtuber: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "if(datum.Country == 'India' || datum.Country == 'Japan' || datum.Country == 'Russia' || datum.Country == 'South Korea' || datum.Country == 'Saudi Arabia' || datum.Country == 'Yemen' || datum.Country == 'United Arab Emirates' || datum.Country == 'Kuwait' || datum.Country == 'Indonesia' || datum.Country == 'Philippines' || datum.Country == 'Pakistan' || datum.Country == 'Vietnam' || datum.Country == 'Afghanistan' || datum.Country == 'Iraq' || datum.Country == 'Jordan' || datum.Country == 'Andorra' || datum.Country == 'Malaysia' ||  datum.Country == 'Ukraine', 'Asia', if(datum.Country == 'United States' || datum.Country == 'Canada' || datum.Country == 'Mexico' || datum.Country == 'Barbados', 'North America', if(datum.Country == 'Australia' || datum.Country == 'Samoa', 'Oceania',if(datum.Country == 'Morocco' || datum.Country == 'Egypt', 'Africa', if(datum.Country == 'Brazil' || datum.Country == 'Chile'|| datum.Country == 'Cuba'|| datum.Country == 'El Salvador'|| datum.Country == 'Venezuela'|| datum.Country == 'Colombia'|| datum.Country == 'Peru'|| datum.Country == 'Ecuador', 'South America','Europe')))))",
+      "as": "continent"
+    },
+    {
+      "filter": "datum.subscribers >= subscribersSlider"
+    },
+    {
+      "filter": "topNRank == null || datum.rank <= topNRank"
+    }
+  ],
+  "layer": [
+    {
+      "mark": "circle",
+      "encoding": {
+        "x": {
+          "field": "subscribers",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "video views",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "continent",
+          "type": "nominal",
+          "title":"Continent"
+        },
+        "opacity": {"value": 0.6},
+        "tooltip": [
+          {
+            "field": "Youtuber",
+            "type": "nominal"
+          },
+          {
+            "field": "subscribers",
+            "type": "quantitative"
+          },
+          {
+            "field": "video views",
+            "type": "quantitative"
+          },
+          {
+            "field": "Country",
+            "type": "nominal"
+          }
+        ]
+      },
+      "selection": {
+        "grid": {
+          "type": "interval",
+          "bind": "scales",
+          "zoom": "wheel",
+          "pan": true
+          
+        }
+        
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 5
+      },
+      "encoding": {
+        "x": {
+          "field": "subscribers",
+          "type": "quantitative",
+          "stack": "zero",
+          "title": "Number of subscribers"
+        },
+        "y": {
+          "field": "video views",
+          "type": "quantitative",
+          "title": "Total views across all videos on the channel"
+          
+        },
+        "text": {
+          "field": "text_annotation"
+        },
+        "color": {
+          "field": "continent"
+        }
+      },
+      "transform": [
+        {
+          "filter": {
+            "field": "rank",
+            "lte": 5
+          }
+        },
+        {
+          "calculate": "datum['Youtuber'] + ' ;Global Rank: ' + datum['rank'] +', Subscribers:'+ datum['subscribers']" ,
+          "as": "text_annotation_raw"
+        },
+        {
+          "calculate": "split(datum.text_annotation_raw, ';')",
+          "as": "text_annotation"
+        }
+      ]
+    }
+  ]
+}

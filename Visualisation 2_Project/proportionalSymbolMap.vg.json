@@ -1,0 +1,211 @@
+
+{"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+"title": "",
+"width": 800,
+"height": 500,
+"data": {
+  "url": "Global YouTube Statistics.csv",
+  "format": {
+    "type": "csv"
+  }
+},
+"transform": [
+  {
+    "window": [{"op": "rank", "as": "rank"}],
+    "groupby": ["Country"]
+  },
+  
+  {
+    "filter": {"field": "rank", "equal": 1}
+  },
+  {
+    "filter": "datum.Country !== 'nan'"
+  },
+  
+  {
+    "filter": "datum.Country !== 'Andorra'"
+  },
+  {
+    "filter": "datum.channel_type !== 'nan'"
+  }, 
+  {
+    "calculate": "if(datum.Country == 'India' || datum.Country == 'Japan'  || datum.Country == 'South Korea' || datum.Country == 'Saudi Arabia' || datum.Country == 'Yemen' || datum.Country == 'United Arab Emirates' || datum.Country == 'Kuwait' || datum.Country == 'Indonesia' || datum.Country == 'Philippines' || datum.Country == 'Pakistan' || datum.Country == 'Vietnam' || datum.Country == 'Afghanistan' || datum.Country == 'Iraq' || datum.Country == 'Jordan' || datum.Country == 'Andorra' || datum.Country == 'Malaysia' ||  datum.Country == 'China'||  datum.Country == 'Thailand'||  datum.Country == 'Bangladesh', 'Asia', if(datum.Country == 'United States' || datum.Country == 'Canada' || datum.Country == 'Mexico' || datum.Country == 'Barbados', 'North America', if(datum.Country == 'Australia' || datum.Country == 'Samoa', 'Oceania',if(datum.Country == 'Morocco' || datum.Country == 'Egypt', 'Africa', if(datum.Country == 'Brazil' || datum.Country == 'Chile'|| datum.Country == 'Cuba'|| datum.Country == 'El Salvador'|| datum.Country == 'Venezuela'|| datum.Country == 'Colombia'|| datum.Country == 'Peru'|| datum.Country == 'Ecuador'|| datum.Country == 'Argentina', 'South America','Europe')))))",
+    "as": "continent"
+  },
+  {
+    "filter": "topNRank == null || datum.continent == topNRank"
+  }
+  
+],
+"projection": {
+  "type": "equalEarth"
+ 
+},
+"params": [
+  
+    {
+      "name": "topNRank",
+      "bind": {
+        "input": "select",
+        "options": [null, "Asia", "North America","Oceania", "Africa", "South America", "Europe"],
+        "labels": ["Show All", "Asia", "North America", "Oceania", "Africa", "South America", "Europe"],
+        "name": "Select Continent: "
+      }
+    }
+  
+],
+"layer": [
+  
+  {
+    "data": {
+      "url": "oceans.topojson",
+      "format": {"type": "topojson", "feature": "oceans"}
+    },
+    "mark": {"type": "geoshape", "fill": "lightblue"}
+  },
+  {
+    "data": {
+      "url": "ne_110m.topojson",
+      "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+    },
+    "mark": {
+      "type": "geoshape",
+      "fill": "lightgrey",
+      "stroke":"whitesmoke"
+    }
+  },
+  {
+    "data": {
+      "url": "WorldMapWithGraticules.topojson",
+      "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+    },
+    "mark": {"type": "geoshape", "fill": null, "stroke": "whitesmoke"}
+  },
+  {
+    "mark": {
+      "type": "circle",
+      "tooltip": true,
+      "stroke": "grey"
+    },
+    "encoding": {
+      "longitude": {"field": "Longitude", "type": "quantitative"},
+      "latitude": {"field": "Latitude", "type": "quantitative"},
+      "size": {"field": "subscribers", "type": "quantitative","title": "Number of Subscribers"},
+      "color":{"field": "channel_type", "type": "nominal","title": "Channel Type","scale": { "scheme": "set1" }},
+
+      "tooltip": [
+        {"field": "Youtuber", "type": "nominal", "title": "YouTuber"},
+        {"field": "Country", "type": "nominal", "title": "Country"},
+        {"field": "subscribers", "type": "quantitative", "title": "Subscribers"},
+        {"field": "channel_type", "type": "nominal", "title": "Channel Type"}
+      ]
+    }
+  },
+  {
+    "mark": {
+      "type": "point",
+      "tooltip": true,
+      "stroke": "black"
+    },
+    "encoding": {
+      "longitude": {"field": "Longitude", "type": "quantitative"},
+      "latitude": {"field": "Latitude", "type": "quantitative"},
+      "size": {"field": "subscribers", "type": "quantitative","title": "Number of Subscribers"},
+      "tooltip": [
+        {"field": "Youtuber", "type": "nominal", "title": "YouTuber"},
+        {"field": "Country", "type": "nominal", "title": "Country"},
+        {"field": "subscribers", "type": "quantitative", "title": "Subscribers"},
+        {"field": "channel_type", "type": "nominal", "title": "Channel Type"}
+      ]
+   
+    },
+    "transform": [
+      {
+        "window": [{"op": "rank", "as": "rank"}],
+        "groupby": ["continent"]
+      },
+      
+      {
+        "filter": {"field": "rank", "equal": 1}
+      }]
+
+  },
+  {
+    "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "middle",
+      "dx":10
+    },
+    "encoding": {
+      "longitude": { "field": "Longitude", "type": "quantitative" },
+      "latitude": { "field": "Latitude", "type": "quantitative" },
+      "text": { "field": "text_annotation" }
+    },
+    "transform": [
+      {
+        "window": [{"op": "rank", "as": "rank"}],
+        "groupby": ["continent"]
+      },
+      
+      {
+        "filter": {"field": "rank", "equal": 1}
+      },
+      {
+        "filter": "datum.Country !== 'Egypt'"
+      },
+      {
+        "calculate": "substring(datum['Youtuber'], 0, 20) + ';has the largest subscribers;in '+ datum.continent" ,
+        "as": "text_annotation_raw"
+      },
+      {
+        "calculate": "split(datum.text_annotation_raw, ';')",
+        "as": "text_annotation"
+      }
+    ]
+  },
+  {
+    "mark": {
+      "type": "text",
+      "align": "right",
+      "baseline": "middle",
+      "dx":-8
+    },
+    "encoding": {
+      "longitude": { "field": "Longitude", "type": "quantitative" },
+      "latitude": { "field": "Latitude", "type": "quantitative" },
+      "text": { "field": "text_annotation" }
+    },
+    "transform": [
+      {
+        "window": [{"op": "rank", "as": "rank"}],
+        "groupby": ["continent"]
+      },
+      
+      {
+        "filter": {"field": "rank", "equal": 1}
+      },
+      {
+        "filter": "datum.Country !== 'Russia'"
+      },{
+        "filter": "datum.Country !== 'India'"
+      },
+      {
+        "filter": "datum.Country !== 'Australia'"
+      },{
+        "filter": "datum.Country !== 'Brazil'"
+      },{
+        "filter": "datum.Country !== 'United States'"
+      },
+      {
+        "calculate": "substring(datum['Youtuber'], 0, 10) + ';has the largest subscribers;in '+ datum.continent" ,
+        "as": "text_annotation_raw"
+      },
+      {
+        "calculate": "split(datum.text_annotation_raw, ';')",
+        "as": "text_annotation"
+      }
+    ]
+  }
+]
+}

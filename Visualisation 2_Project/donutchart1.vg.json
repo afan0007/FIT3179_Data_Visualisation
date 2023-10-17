@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "",
+  "width": 300,
+  "height": 300,
+  "autosize": "pad",
+  
+  "data": {
+    "url": "Global YouTube Statistics.csv"
+  },
+  "transform": [
+    {"filter": "datum.channel_type !== 'nan'"},
+    {"aggregate": [{"op": "count", "field": "channel_type", "as": "count"}],
+      "groupby": ["channel_type"]},
+    {"joinaggregate": [{"op": "sum", "field": "count", "as": "total_count"}],
+      "groupby": []},
+    {
+      "calculate": "datum.count / datum.total_count * 100",
+      "as": "percentage"
+    }
+  ],"encoding": {
+    "theta": {"field": "count", "type": "quantitative", "stack":true},
+    "color": {"field": "channel_type", "type": "nominal", "scale": {"scheme": "category20"},"title":"Channel Type"},
+    "tooltip": [
+      {"field": "channel_type", "type": "nominal", "title": "channel_type"},
+      {"field": "count", "type": "quantitative", "title": "Count"},
+      {"field": "percentage", "type": "quantitative", "title": "Percentage", "format": ".2f"}
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "arc",
+        "innerRadius": 70,
+        "outerRadius": 100
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "radius": 115
+      },
+      "encoding": {
+        "text": {"field": "text_annotation"},
+        "color": {"field": "channel_type", "type": "nominal"}
+      },
+      "transform": [
+        {"filter": "datum.percentage > 2"},
+        {
+          "calculate": "substring(datum['percentage'], 0, 4) + '% ' " ,
+          "as": "text_annotation"
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 30,
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "text": {"value": "🎭"},
+        "x": {"value": 150},
+        "y": {"value": 150}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"}
+    
+  }
+  
+}

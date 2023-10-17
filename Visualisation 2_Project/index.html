@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Statistics Analysis</title>
+    <!-- Include Vega and Vega-Lite JavaScript libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+     <!-- Include the CSS file -->
+     <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <header>
+    <img src="youtube header.jpg" alt="Header Image" class="header-image">
+  </header>
+
+  <div class="header1">
+    <h1>💭 About</h1>
+  </div>
+  <div  style="background-color:#ebeaea;">
+    <div class="description description-left">
+            
+      <p>Analysis of global YouTube statistics offers a deep dive into the <u><strong>YouTube universe, revealing trends in content creation and audience engagement.</strong> </u>
+        <br>It's a useful resource for entrepreneurs, companies, and marketers looking for information to help them connect with their worldwide audience more effectively.   </p>
+    </div>
+  </div>
+
+  
+  <div class="header1">
+    <h1>📈 Demographic of Dataset</h1>
+  </div>
+  
+  
+  <div class="row">
+    <div class="column" style="background-color:#ebeaea;">
+      <h2><u><strong>Percentage of YouTube Channels of Each Category</strong></u></h2>
+      <div>
+        <div class="visualization-container">
+        <div id="visualization1"  ></div> </div>
+        <div class="description description-left">
+            
+            <p>From the donut chart visualisation of YouTube channel types, it is discovered that channel type of: 
+              <strong>Entertainment (31.5%), Music (22.38%), and People (10.4%)</strong>
+               <br>are the <u><strong>Top 3 most common type of content</strong></u> made by YouTubers. 
+               <br>Hence, it is justified that those channel types are highly favoured among YouTube users.  </p>
+          </div>
+       
+        <script>
+            
+            const vegaLiteSpec1 = "donutchart1.vg.json";
+            const container1 = document.getElementById("visualization1");
+            vegaEmbed(container1, vegaLiteSpec1);
+        </script>
+        
+
+        </div>
+      
+    </div>
+    <div class="column" style="background-color:#ebeaea;">
+      <h2><u> <strong>Percentage of YouTubers by Continent</strong></u></h2>
+      <div>
+        <div class="visualization-container">
+        <div id="visualization2"></div></div>
+        <div class="description description-left">
+            
+            <p> It is observed that <strong> North America (41.4%)</strong> has the highest number of YouTubers followed by <strong>Asia(32.9%).</strong>
+            <br>This signifies there is are a great number of YouTube users from those continents. 
+            <br>Hence, it resulted in more YouTubers creating content. </p>
+          </div>
+        <script>
+            
+            const vegaLiteSpec2 = "donutchart2.vg.json";
+            const container2 = document.getElementById("visualization2");
+            vegaEmbed(container2, vegaLiteSpec2);
+        </script>
+        
+        </div>
+    </div>
+    
+    <div class="description description-left" >
+        
+      <p> </p>
+  </div>
+  </div>
+
+
+  <div class="header1">
+    
+    <h1>🥇 Top Ranking YouTuber of each Country and its Subscribers</h1>
+  </div>
+  
+  
+    <div style="background-color:#ebeaea;">
+    <!-- Container for the visualization -->
+    
+    <div class="description description-left" >
+        
+        <p>The map visualisation here demonstrates the Top ranked (Top 1) YouTuber of each country 
+          and has a focused analysis of continents by selecting a specific continent.
+        <br>The size variation of the point mark symbolises its associated subscriber count.
+          The annotated points highlight the top ranked YouTuber with the most subscribers in its continent.</p>
+        <p><br>It is learned that <strong>Asia</strong> has the most countries with top ranked YouTubers and consists of 
+          a famous YouTuber: <strong>T-Series</strong> that has the most subscribers across all the continents.
+        <br>Thus, <strong>T-Series</strong> is the <strong><u>most popular on its continent</u></strong>.
+       <br>This visualisation helps us to know the popular YouTuber based on their continent.
+           </p>
+    </div>
+    <div class="visualization-container">
+      <div id="visualization3"></div></div>
+      
+    <script>
+        // Your Vega-Lite specification (replace with your file's path)
+        const vegaLiteSpec3 = "proportionalSymbolMap.vg.json";
+
+        // Get a reference to the container div
+        const container3 = document.getElementById("visualization3");
+
+        // Use Vega-Embed to render the visualization
+        vegaEmbed(container3, vegaLiteSpec3);
+    </script>
+    <div class="description description-left" >
+        
+      <p> </p>
+      
+  </div>
+    </div>
+  
+
+    <div class="header1">
+      <h1>🔔 Subscribers VS Video Views 👁️ </h1>
+    </div>
+
+    
+    <div style="background-color:#ebeaea;">
+    <!-- Container for the visualization -->
+    
+    <div class="description description-left">
+        
+        <p>The scatter plot here shows the relationship between 
+          the number of subscribers and the total views across all the videos on each YouTuber's channel.</p>
+        <p><br>It has been studied that the number of subscribers highly correlates with video views. 
+          This can be proven by the annotated <strong>Top 5 </strong> global ranking YouTubers. 
+          <br>It shows that YouTubers with a <strong><u>higher subscriber count would have higher overall video views.</u></strong> </p>
+      </div>
+
+    <div class="visualization-container">
+        <div id="visualization4"></div></div>
+    <script>
+        
+        const vegaLiteSpec4 = "scatterplot.vg.json";
+        const container4 = document.getElementById("visualization4");
+        vegaEmbed(container4, vegaLiteSpec4);
+    </script>
+    <div class="description description-left" >
+        
+      <p> </p>
+      
+  </div>
+    </div>
+  
+
+    <div class="header1">
+      <h1>🏅 Top 50 ranked YouTuber and its Uploads</h1>
+    </div>
+
+   
+    <div style="background-color:#ebeaea;">
+    
+    <div class="description description-left">
+        
+        <p>The word cloud here visualises <strong>Top 50</strong> ranked YouTuber such that if they have a higher amount of uploads, the YouTuber name would be larger. 
+        <br>It is seen that despite <strong>T-Series</strong> having a <strong>global Rank of 1</strong>, it has <strong><u>fewer uploads</u></strong> compared to <strong>WWE (Rank 12)</strong> or <strong>SONY SAB (Rank 16)</strong>.
+        <br>It is justified that the number of uploads a YouTuber has does not mean that they are popular.</p>
+      <p><br>However, a <strong><u>large number of uploads acts as a booster for fame</u></strong>, as viewers would have more content to see.
+     It is observed that <strong><u>higher ranking YouTubers generally have a higher number of uploads</u></strong>.
+     </p>
+      </div>
+      <div class="visualization-container">
+        <div id="visualization5"></div></div>
+    <script>
+        
+        const vegaLiteSpec5 = "wordcloud.vg.json";
+        const container5= document.getElementById("visualization5");
+        vegaEmbed(container5, vegaLiteSpec5);
+    </script>
+    <div class="description description-left" >
+        
+      <p> </p>
+      
+  </div>
+    </div>
+  
+
+    <div class="header1">
+      <h1>💵 Sum of Average Yearly Earnings of Each Channel Type</h1>
+    </div>
+
+    
+    <div style="background-color:#ebeaea;">
+    <div class="description description-left">
+        
+        <p>The bar chart shows the sum of average yearly earnings gained from each channel type.
+           The visualisation shows that YouTube channel type of <strong>People</strong> has the <strong><u>most sum of average yearly earnings</u></strong> followed by <strong>Entertainment</strong> and <strong>Music</strong>.</p>
+          <p><br>This explains and supports the statement that the channel type of <strong>People, Entertainment and Music </strong>is <strong><u>highly loved by general YouTube viewers</u></strong>.
+           So, many YouTubers would mainly make content based on those categories for more viewers and subscribers.</p>
+      </div>
+      
+        <div class="visualization-container">
+      <div id="visualization6"></div></div>
+    <script>
+        
+        const vegaLiteSpec6 = "barchart.vg.json";
+        const container6= document.getElementById("visualization6");
+        vegaEmbed(container6, vegaLiteSpec6);
+    </script>
+    <div class="description description-left" >
+        
+      <p> </p>
+      
+  </div>
+    </div>
+
+
+    <div class="header1">
+      <h1>🗓️ YouTube Channels Created Over the Years</h1>
+    </div>
+
+    
+    <div style="background-color:#ebeaea;">
+    <div class="description description-left">
+        
+        <p>The visualisation here illustrates the number of YouTube channels created over the years. 
+           From the dataset of Global YouTube Statistics, <br>it is evident that <strong><u>most YouTube channels were first created on the year 2006</u></strong>. 
+           In comparison to the number of channels created in the year <strong>2005</strong>, there has been a <strong><u>drastic increase in the number of channels of created</u></strong>. </p>
+          <p><br>This shows that between the year <strong>2005-2006</strong>, YouTube has <strong><u>become more well known and used by the public</u></strong>.
+          <br>However, from the year <strong>2016</strong>, the number of channels created has gradually decrease. 
+          This may be due to the stability of general sets of YouTubers which provide more than enough content for the public in YouTube.
+           </p>
+      </div>
+      
+        <div class="visualization-container">
+      <div id="visualization8"></div></div>
+    <script>
+        
+        const vegaLiteSpec8 = "linechart.vg.json";
+        const container8= document.getElementById("visualization8");
+        vegaEmbed(container8, vegaLiteSpec8);
+    </script>
+    <div class="description description-left" >
+        
+      <p> </p>
+      
+  </div>
+    </div>
+  
+    
+    <div class="header1">
+      <h1>🌎 YouTube Channels Created Over the Years by Continent</h1>
+    </div>
+
+    
+    <div style="background-color:#ebeaea;">
+    <div class="description description-left">
+        
+        <p>Now let's dive deeper into understanding the number of YouTube channels created over the years <strong>(Since the year 2006) </strong>by continent.
+         <br> From the multi-line chart here, we can see that <strong><u>North America has created an overall greater number of channels over the years</u></strong>.
+        followed by <strong>Asia, Europe,South America, Oceania,</strong>and <strong>Africa</strong>.</p>
+      <p><br>This supports the fact that the <strong><u>majority of YouTubers are from North America followed by Asia</u></strong>.
+        <br>Similar to the previous line chart visualisation,the number of <strong><u>channels created in the year 2016 gradually decrease for all continents</u></strong>. 
+        This could be due to the stability of general sets of YouTubers that provide more than enough content for the public on YouTube.   </p>
+      </div>
+      
+        <div class="visualization-container">
+      <div id="visualization7"></div></div>
+    <script>
+        
+        const vegaLiteSpec7 = "multilinechart.vg.json";
+        const container7= document.getElementById("visualization7");
+        vegaEmbed(container7, vegaLiteSpec7);
+    </script>
+    
+  <div class="author" >
+        
+    <p><strong> Visualisation by: Ashley Fang Cai Xian, Student ID: 32820585, Date: 15/10/23, FIT3179 Data Visualisation 2 </strong></p>
+    
+</div>
+    </div>
+</body>
+</html>

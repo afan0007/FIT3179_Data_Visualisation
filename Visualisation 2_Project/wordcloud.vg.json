@@ -1,0 +1,100 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "title": "",
+    "width": 950,
+    "height": 600,
+    "padding": 0,
+    "background": "white",
+    "signals": [
+      {
+        "name": "wordPadding", "value": 1
+      },
+      {
+        "name": "fontSizeRange0", "value": 8
+      },
+      {
+        "name": "fontSizeRange1", "value": 27
+      },
+      {
+        "name": "rotate", "value": 0
+      }
+    ],
+  
+    "data": [
+      {
+        "name": "table",
+        "url": "Global YouTube Statistics.csv", 
+        "format": {"type": "csv"},
+        "transform": [
+         
+          {
+            "type": "filter",
+            "expr": "datum.rank <= 50 "  
+          },
+          
+          {
+            "type": "formula", "as": "weight",
+            "expr": "if(datum.Youtuber=='T-Series', 600, 300)"
+          },
+          {
+            "type": "formula", "as": "rotate",
+            "expr": "[-rotate, 0, rotate][~~(random() * 3)]"
+          },
+          {
+            "type": "formula",
+            "as": "tooltipText",
+            "expr": "if(datum.rank && datum.uploads, 'Rank: ' + datum.rank + ', Uploads: ' + datum.uploads, 'No rank or uploads info')"
+          },
+          {
+            "type": "wordcloud",
+            "size": [{"signal": "width"}, {"signal": "height"}],
+            "text": {"field": "Youtuber"},
+            "font": "Helvetica Neue, Arial",
+            "fontSize": {"field": "uploads"},
+            "fontWeight": {"field": "weight"},
+            "fontSizeRange": [{"signal": "fontSizeRange0"}, {"signal": "fontSizeRange1"}],
+            "padding": {"signal": "wordPadding"},
+            "rotate": {"field": "rotate"}
+          }
+        ]
+      }
+    ],
+  
+    "scales": [
+      {
+        "name": "color",
+        "type": "ordinal",
+        "range": ["#FF0000", "#000000",  "#7c7078","#372a33"]
+      }
+    ],
+  
+    "marks": [
+      {
+        "type": "text",
+        "from": {"data": "table"},
+        "encode": {
+          "enter": {
+            "text": {"field": "Youtuber"},
+            "align": {"value": "center"},
+            "baseline": {"value": "alphabetic"},
+            "fill": {"scale": "color", "field": "Youtuber"},
+            "font": {"value": "Helvetica Neue, Arial"},
+            "fontWeight": {"field": "weight"},
+            "tooltip":{"field": "tooltipText"}
+            
+          },
+          "update": {
+            "x": {"field": "x"},
+            "y": {"field": "y"},
+            "angle": {"field": "angle"},
+            "fontSize": {"field": "fontSize"},
+            "fillOpacity": {"value": 1}
+          },
+          "hover": {
+            "fillOpacity": {"value": 0.5}
+          }
+        }
+      }
+    ]
+   
+  }

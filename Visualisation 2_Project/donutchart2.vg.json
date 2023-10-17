@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "",
+  "width": 300,
+  "height": 300,
+  "autosize": "pad",
+  "data": {
+    "url": "Global YouTube Statistics.csv"
+  },
+  "transform": [
+    {"filter": "datum.Country !== 'nan'"},
+    {
+      "calculate": "if(datum.Country == 'India' || datum.Country == 'Japan' || datum.Country == 'Russia' || datum.Country == 'South Korea' || datum.Country == 'Saudi Arabia' || datum.Country == 'Yemen' || datum.Country == 'United Arab Emirates' || datum.Country == 'Kuwait' || datum.Country == 'Indonesia' || datum.Country == 'Philippines' || datum.Country == 'Pakistan' || datum.Country == 'Vietnam' || datum.Country == 'Afghanistan' || datum.Country == 'Iraq' || datum.Country == 'Jordan' || datum.Country == 'Andorra' || datum.Country == 'Malaysia' ||  datum.Country == 'Ukraine', 'Asia', if(datum.Country == 'United States' || datum.Country == 'Canada' || datum.Country == 'Mexico' || datum.Country == 'Barbados', 'North America', if(datum.Country == 'Australia' || datum.Country == 'Samoa', 'Oceania',if(datum.Country == 'Morocco' || datum.Country == 'Egypt', 'Africa', if(datum.Country == 'Brazil' || datum.Country == 'Chile'|| datum.Country == 'Cuba'|| datum.Country == 'El Salvador'|| datum.Country == 'Venezuela'|| datum.Country == 'Colombia'|| datum.Country == 'Peru'|| datum.Country == 'Ecuador', 'South America','Europe')))))",
+"as": "continent"
+
+    },
+    {"aggregate": [{"op": "count", "field": "continent", "as": "count"}],
+      "groupby": ["continent"]},
+    {"joinaggregate": [{"op": "sum", "field": "count", "as": "total_count"}],
+      "groupby": []},
+    {
+      "calculate": "datum.count / datum.total_count * 100",
+      "as": "percentage"
+    }
+  ],
+  "encoding": {
+      "theta": {"field": "count", "type": "quantitative", "stack":true},
+      "color": {"field": "continent", "type": "nominal","title":"Continent"},
+      "tooltip": [
+        {"field": "continent", "type": "nominal", "title": "Continent"},
+        {"field": "count", "type": "quantitative", "title": "Count"},
+        {"field": "percentage", "type": "quantitative", "title": "Percentage", "format": ".2f"}
+      ]
+    },
+  "layer": [
+    {
+      "mark": {
+        "type": "arc",
+        "innerRadius": 70,
+        "outerRadius": 100
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "radius": 115
+      },
+      "encoding": {
+        "text": {"field": "text_annotation"},
+        "color": {"field": "continent", "type": "nominal"}
+      },
+      "transform": [
+        
+        {
+          "calculate": "substring(datum['percentage'], 0, 4) + '% ' " ,
+          "as": "text_annotation"
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 30,
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "text": {"value": "🌍"}, 
+        "x": {"value": 150},
+        "y": {"value": 150}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": "transparent"}
+  }
+}
